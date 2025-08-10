@@ -63,7 +63,7 @@ export default function InfinityLoopDOM({
     position: absolute;
     top: 50%;
     left: 50%;
-    height: 1lh;
+    height: 0.8lh;
     translate: -50% -50%;
     border: 0.05em solid oklch(0.75 1 var(--h, 320));
     transition: width 0.25s, border-color 0.25s;
