@@ -1,0 +1,91 @@
+/* Import Geist font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap'); /* Fallback font */
+
+/* Define Geist font with a system font fallback stack */
+@font-face {
+  font-family: 'Geist';
+  src: local('Geist'), local('Geist-Regular'), url('https://cdn.jsdelivr.net/npm/geist-font/dist/geist-regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: local('Geist Bold'), local('Geist-Bold'), url('https://cdn.jsdelivr.net/npm/geist-font/dist/geist-bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: local('Geist Black'), local('Geist-Black'), url('https://cdn.jsdelivr.net/npm/geist-font/dist/geist-black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Contenedor principal */
+.text-mask-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Video de fondo */
+.background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+/* Capa de texto sobre el video */
+.text-overlay {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+/* Texto animado */
+.animated-text {
+  font-size: 20vw;
+  font-weight: 900;
+  font-family: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0;
+  color: white;
+  /* Efecto de máscara usando blend mode */
+  mix-blend-mode: screen;
+}
+
+/* Animación para cada letra */
+.letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(100px);
+  animation: letterUp 1s ease-out forwards;
+}
+
+@keyframes letterUp {
+  0% {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  70% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
