@@ -188,6 +188,27 @@ export default function InfinityLoopDOM({
         return closestItem;
       };
 
+      // Find the item that will be centered after the next movement
+      const findNextCenterItem = () => {
+        let nextCenterItem = allItems[0];
+        let smallestPositiveDistance = Infinity;
+        
+        allItems.forEach((item) => {
+          const currentY = gsap.getProperty(item, "yPercent") as number;
+          
+          // Look for items that are below center (positive yPercent) and closest to spacing
+          // After movement, the item at yPercent = spacing will be at center (0)
+          const distanceFromNextCenter = Math.abs(currentY - spacing);
+          
+          if (currentY > 0 && distanceFromNextCenter < smallestPositiveDistance) {
+            smallestPositiveDistance = distanceFromNextCenter;
+            nextCenterItem = item;
+          }
+        });
+        
+        return nextCenterItem;
+      };
+
       // Update indicator based on the actually centered item
       const updateIndicator = () => {
         const centerItem = findCenteredItem();
@@ -195,6 +216,24 @@ export default function InfinityLoopDOM({
         
         const w = centerItem.getBoundingClientRect().width;
         console.log('Updating indicator for:', centerItem.textContent, 'width:', w);
+        
+        // Fast indicator update without interruptions
+        gsap.to(indicatorRef.current, {
+          "--width": w,
+          "--h": gsap.utils.random(0, 2),
+          duration: 0.1,
+          ease: "power2.in",
+          overwrite: true // Prevent interruptions
+        });
+      };
+
+      // Update indicator for the next word that will be centered
+      const updateIndicatorForNext = () => {
+        const nextItem = findNextCenterItem();
+        if (!nextItem) return;
+        
+        const w = nextItem.getBoundingClientRect().width;
+        console.log('Updating indicator for NEXT word:', nextItem.textContent, 'width:', w);
         
         // Fast indicator update without interruptions
         gsap.to(indicatorRef.current, {
@@ -215,19 +254,13 @@ export default function InfinityLoopDOM({
           // Calculate next center index
           const nextCenterIndex = (currentCenterIndex + 1) % originalWordsCount;
 
+          // Update indicator IMMEDIATELY for the next word (anticipatory)
+          currentCenterIndex = nextCenterIndex;
+          updateIndicatorForNext();
+
           // Fast movement animation (0.6 seconds)
           const moveTL = gsap.timeline({
-            onUpdate: () => {
-              // Update indicator during movement for real-time sync
-              updateIndicator();
-            },
             onComplete: () => {
-              // Update current center index
-              currentCenterIndex = nextCenterIndex;
-              
-              // Final indicator update after movement completes
-              updateIndicator();
-              
               // Reset transition flag and schedule next step after 2 seconds
               isTransitioning = false;
               gsap.delayedCall(2, nextStep);
