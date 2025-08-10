@@ -199,7 +199,7 @@ export default function InfinityLoopDOM({
         // Fast indicator update without interruptions
         gsap.to(indicatorRef.current, {
           "--width": w,
-          "--h": gsap.utils.random(0, 259),
+          "--h": gsap.utils.random(0, 2),
           duration: 0.1,
           ease: "power2.in",
           overwrite: true // Prevent interruptions
@@ -243,15 +243,19 @@ export default function InfinityLoopDOM({
               modifiers: {
                 yPercent: (value) => {
                   const numValue = parseFloat(value);
-                  const totalHeight = spacing * allItems.length;
                   
-                  // Create seamless wrapping
-                  if (numValue <= -(spacing * originalWordsCount * 1.5)) {
+                  // True infinite wrapping - when items go too far up, wrap them to bottom
+                  if (numValue <= -(spacing * 2)) {
+                    // Move item to bottom of the visible area
                     return String(numValue + (spacing * originalWordsCount));
                   }
-                  if (numValue >= (spacing * originalWordsCount * 1.5)) {
+                  
+                  // When items go too far down, wrap them to top
+                  if (numValue >= (spacing * (originalWordsCount + 1))) {
+                    // Move item to top of the visible area
                     return String(numValue - (spacing * originalWordsCount));
                   }
+                  
                   return value;
                 }
               }
