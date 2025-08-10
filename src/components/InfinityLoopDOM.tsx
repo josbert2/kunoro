@@ -170,6 +170,9 @@ export default function InfinityLoopDOM({
       let currentCenterIndex = 0; // Index within the original words array
       let isTransitioning = false;
 
+      // Define your custom colors (hue values 0-359)
+      const customColors = [320, 200, 120, 60, 280, 40, 180]; // Purple, Blue, Green, Yellow, Magenta, Orange, Cyan
+
       // Find the item that is actually closest to center (yPercent = 0)
       const findCenteredItem = () => {
         let closestItem = allItems[0];
@@ -218,9 +221,10 @@ export default function InfinityLoopDOM({
         console.log('Updating indicator for:', centerItem.textContent, 'width:', w);
         
         // Fast indicator update without interruptions
+        const randomColor = customColors[Math.floor(Math.random() * customColors.length)];
         gsap.to(indicatorRef.current, {
           "--width": w,
-          "--h": gsap.utils.random(0, 2),
+          "--h": randomColor,
           duration: 0.1,
           ease: "power2.in",
           overwrite: true // Prevent interruptions
@@ -236,9 +240,10 @@ export default function InfinityLoopDOM({
         console.log('Updating indicator for NEXT word:', nextItem.textContent, 'width:', w);
         
         // Fast indicator update without interruptions
+        const randomColor = customColors[Math.floor(Math.random() * customColors.length)];
         gsap.to(indicatorRef.current, {
           "--width": w,
-          "--h": gsap.utils.random(0, 2),
+          "--h": randomColor,
           duration: 0.1,
           ease: "power2.in",
           overwrite: true // Prevent interruptions
