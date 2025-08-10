@@ -190,25 +190,19 @@ export default function InfinityLoopDOM({
 
       // Update indicator based on the actually centered item
       const updateIndicator = () => {
-        if (isTransitioning) return;
-        
         const centerItem = findCenteredItem();
-        const w = centerItem.getBoundingClientRect().width;
+        if (!centerItem) return;
         
-        // First close the indicator
+        const w = centerItem.getBoundingClientRect().width;
+        console.log('Updating indicator for:', centerItem.textContent, 'width:', w);
+        
+        // Fast indicator update without interruptions
         gsap.to(indicatorRef.current, {
-          "--width": 0,
-          duration: 0.15,
+          "--width": w,
+          "--h": gsap.utils.random(0, 259),
+          duration: 0.1,
           ease: "power2.in",
-          onComplete: () => {
-            // Then open with new width and color
-            gsap.to(indicatorRef.current, {
-              "--width": w,
-              "--h": gsap.utils.random(0, 359),
-              duration: 0.2,
-              ease: "back.out(1.7)"
-            });
-          }
+          overwrite: true // Prevent interruptions
         });
       };
 
@@ -223,11 +217,15 @@ export default function InfinityLoopDOM({
 
           // Fast movement animation (0.6 seconds)
           const moveTL = gsap.timeline({
+            onUpdate: () => {
+              // Update indicator during movement for real-time sync
+              updateIndicator();
+            },
             onComplete: () => {
               // Update current center index
               currentCenterIndex = nextCenterIndex;
               
-              // Update indicator after movement completes
+              // Final indicator update after movement completes
               updateIndicator();
               
               // Reset transition flag and schedule next step after 2 seconds
@@ -267,7 +265,7 @@ export default function InfinityLoopDOM({
 
       // Initial setup
       gsap.set(containerRef.current, { opacity: 1 });
-      updateIndicator(currentCenterIndex);
+      updateIndicator();
       
       // Start infinite step-by-step carousel
       createInfiniteStepCarousel();
