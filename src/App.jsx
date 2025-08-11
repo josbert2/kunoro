@@ -10,9 +10,10 @@ import InfinityLoopDOM from "./components/InfinityLoopDOM";
 import ScrollFillWord from "./components/ScrollFillWord";
 import ScrollFillWordCSS from "./components/ScrollFillWordCSS";
 import Lenis from "@studio-freight/lenis";
+import ProductsMenu from "./components/ProductsMenuNew";
 
 export default function App() {
-
+  
   const lenis = useRef(null);
 
   useEffect(() => {
@@ -48,24 +49,26 @@ export default function App() {
 
   return (
     <>
-       <button className="trigger fixed top-0 z-100" popovertarget="index" popovertargetaction="toggle">
-        <div className="trigger__details">
-          {/* Ícono a la izquierda si quieres */}
-          {/* <YourIcon /> */}
-          <div style={{ width: 190, height: 44 }}>
-            <ScrollFillWordCSS
-              text="KUNOROS"
-              height={44}
-              base="#777"         // oscuro
-              fill="#fff"         // claro (o "currentColor")
-                    // Pasar la instancia de Lenis para sincronización perfecta
-              // container={contentRef} // Comentado para usar viewport scroll
-            />
+        <ProductsMenu />
+        <button style={{
+              top: 28,
+              left: 17,
+        }} className="trigger fixed z-100 !bg-transparent !border-none" popovertarget="index" popovertargetaction="toggle">
+          <div className="trigger__details">
+            {/* Ícono a la izquierda si quieres */}
+            {/* <YourIcon /> */}
+            <div style={{ width: 190, height: 44 }}>
+              <ScrollFillWordCSS
+                text="KUNORO"
+                height={44}
+                base="#7f7f7f"      
+                fill="#2a2a2a"
+              />
+            </div>
+            {/* Chevron, progreso, etc. */}
+            <span className="progress" />
           </div>
-          {/* Chevron, progreso, etc. */}
-          <span className="progress" />
-        </div>
-      </button>
+        </button>
    
         <div className="w-screen h-screen">
             <Header />

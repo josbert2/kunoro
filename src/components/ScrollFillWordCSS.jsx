@@ -10,7 +10,7 @@ export default function ScrollFillWordCSS({
   base = "#777",
   fill = "#fff",
   container = null,
-  fontFamily = "Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif",
+  fontFamily = "Nunito Sans",
   direction = "ltr",
 }) {
   // Progreso de scroll (0 → 1)

@@ -9,7 +9,7 @@ export default function Header() {
     return (
        <nav className="framer-hk7g5j">
             <div className="framer-nk88tz-container">
-                <p className="font-bold">KUNORO</p>
+               
             </div>
             <div className="framer-z8d3vr">
                     <svg
