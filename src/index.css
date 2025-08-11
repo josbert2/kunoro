@@ -511,7 +511,7 @@ span.framer-text:not([data-text-fill]) {
   display: flex
 ;
     gap: 100px;
-  gap: 0px;
+  gap: 100;
   height: min-content;
   justify-content: center;
   overflow: visible;

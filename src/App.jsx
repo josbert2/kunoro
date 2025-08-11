@@ -7,7 +7,8 @@ import Header from "./components/header";
 import { TextAnimate } from "./components/text-blur";
 import SmoothScroll from "./components/smooth-scroll";
 import InfinityLoopDOM from "./components/InfinityLoopDOM";
-
+import ScrollFillWord from "./components/ScrollFillWord";
+import ScrollFillWordCSS from "./components/ScrollFillWordCSS";
 import Lenis from "@studio-freight/lenis";
 
 export default function App() {
@@ -40,11 +41,30 @@ export default function App() {
     lenis.current.scrollTo(element);
   };
 
+  const contentRef = useRef(null);
+
   // URL de ejemplo para el video - reemplazar con la ruta correcta a tu video
   const videoSrc = "https://framerusercontent.com/assets/f2KpBvL8NEdg3mMuHN7FP9fRv4.mp4";
 
   return (
     <>
+       <button className="trigger fixed top-0 z-100" popovertarget="index" popovertargetaction="toggle">
+        <div className="trigger__details">
+          {/* Ícono a la izquierda si quieres */}
+          {/* <YourIcon /> */}
+          <div style={{ width: 190, height: 44 }}>
+            <ScrollFillWord
+              text="KUNORO"
+              height={44}
+              base="#777"         // oscuro
+              fill="#fff"         // claro (o "currentColor")
+              // container={contentRef} // Comentado para usar viewport scroll
+            />
+          </div>
+          {/* Chevron, progreso, etc. */}
+          <span className="progress" />
+        </div>
+      </button>
    
         <div className="w-screen h-screen">
             <Header />
@@ -253,7 +273,7 @@ export default function App() {
         </div >
       
         {/* Brands Section */}
-        <section className="py-20 px-8 bg-white">
+        <section className="py-20 px-8 bg-white"  ref={contentRef}>
           <div className="max-w-6xl mx-auto text-center">
             <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-12">
               WE WORKED WITH GLOBAL LARGEST BRANDS

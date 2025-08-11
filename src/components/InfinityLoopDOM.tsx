@@ -85,6 +85,7 @@ export default function InfinityLoopDOM({
     grid-area: 1 / 1;
     line-height: 1.2;
     will-change: transform;
+    color: canvasText;
   }
 }
 
