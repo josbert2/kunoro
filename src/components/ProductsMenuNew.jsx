@@ -193,7 +193,7 @@ export default function ProductsMenu() {
 
                 <div className="relative" ref={stageRef} onPointerMove={onPointerMove}>
                   {/* Lista de productos mejorada */}
-                  <div className="relative z-10 mx-auto flex w-full max-w-md flex-col items-stretch gap-4">
+                  <div className="relative z-20 mx-auto flex w-full max-w-md flex-col items-stretch gap-4">
                     {PRODUCT_LABELS.map((label, i) => (
                       <div key={label} className="group relative">
                         <button
@@ -292,14 +292,42 @@ export default function ProductsMenu() {
 }
 
 function BoxHolder({ pos, activeIndex, imgs, tw, px, py, pr }) {
-  // position classes per holder
-  const base = "pointer-events-none absolute";
-  const holderCls =
-    pos === "left"
-      ? `${base} left-[8%] top-1/2 -translate-y-1/2`
-      : pos === "right"
-      ? `${base} right-[8%] top-1/2 -translate-y-1/2`
-      : `${base} left-1/2 top-[16%] -translate-x-1/2`;
+  // Posiciones aleatorias que cambian con cada activeIndex
+  const [randomPosition, setRandomPosition] = useState({ left: '50%', top: '50%' });
+  const [hasBeenActive, setHasBeenActive] = useState(false);
+
+  useEffect(() => {
+    if (activeIndex !== null) {
+      // Marcar que ya ha sido activado
+      setHasBeenActive(true);
+      
+      // Generar posiciones más aleatorias con diferentes rangos según la posición
+      let newLeft, newTop;
+      
+      if (pos === "left") {
+        // Lado izquierdo con más variabilidad
+        newLeft = rand(5, 45); // Izquierda de la pantalla
+        newTop = rand(15, 85);
+      } else if (pos === "right") {
+        // Lado derecho con más variabilidad
+        newLeft = rand(55, 95); // Derecha de la pantalla
+        newTop = rand(15, 85);
+      } else {
+        // Top - puede aparecer en cualquier lugar
+        newLeft = rand(15, 85);
+        newTop = rand(10, 70); // Más hacia arriba
+      }
+      
+      setRandomPosition({
+        left: `${newLeft}%`,
+        top: `${newTop}%`
+      });
+    }
+  }, [activeIndex, pos]); // Agregar pos como dependencia
+
+  // position classes per holder - ahora con posiciones dinámicas
+  const base = "pointer-events-none absolute -translate-x-1/2 -translate-y-1/2";
+  const holderCls = base;
 
   // size responsive
   const size = "w-44 aspect-square sm:w-52 md:w-60";
@@ -313,11 +341,20 @@ function BoxHolder({ pos, activeIndex, imgs, tw, px, py, pr }) {
   const transform = `translate(${tx + offX}%, ${ty + offY}%) rotate(${tr}deg)`;
 
   return (
-    <motion.div className={`${holderCls} ${size}`}
+    <motion.div 
+      className={`${holderCls} ${size}`}
       initial={{ scale: 0 }}
-      animate={{ scale: activeIndex !== null ? 1 : 0 }}
-      transition={{ type: "spring", stiffness: 260, damping: 20 }}
-      style={{}}
+      animate={{ 
+        scale: activeIndex !== null ? 1 : 0, // Se desaparece cuando no hay hover activo
+        left: randomPosition.left,
+        top: randomPosition.top
+      }}
+      transition={{ 
+        scale: { type: "spring", stiffness: 260, damping: 20 },
+        left: { type: "spring", stiffness: 120, damping: 25, duration: 0.8 },
+        top: { type: "spring", stiffness: 120, damping: 25, duration: 0.8 }
+      }}
+      style={{ position: 'absolute', zIndex: 1 }} // z-index bajo para no interferir
     >
       <motion.div
         className="img-box w-full h-full"
