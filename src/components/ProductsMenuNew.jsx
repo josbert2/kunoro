@@ -143,30 +143,59 @@ export default function ProductsMenu() {
               onClick={closeMenu}
             />
 
-            {/* Panel */}
-            <motion.div
-              className="absolute inset-0 grid place-items-center"
-              initial={{ scale: 0.98, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1, transition: spring }}
-              exit={{ scale: 0.98, opacity: 0, transition: { duration: 0.15 } }}
+            {/* Backdrop con gradiente elegante */}
+            <div
+              className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black backdrop-blur-md"
+              onClick={closeMenu}
+            />
+
+            {/* Efectos visuales de fondo */}
+            <div className="absolute inset-0 opacity-20">
+              <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+              <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-conic from-transparent via-white/5 to-transparent rounded-full blur-2xl animate-spin" style={{animationDuration: '20s'}}></div>
+            </div>
+
+            {/* Grid pattern overlay */}
+            <div 
+              className="absolute inset-0 opacity-[0.02]"
+              style={{
+                backgroundImage: `
+                  linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+                `,
+                backgroundSize: '50px 50px'
+              }}
+            ></div>
+
+            {/* Content */}
+            <div
+              className="relative z-10 flex h-full w-full items-center justify-center p-4"
             >
-              <section className="fluid w-full max-w-5xl text-center">
-                <div className="mb-6 flex items-center justify-between px-4">
-                  <h2 className="text-xl font-extrabold uppercase tracking-tight">Products</h2>
+              <section className="fluid w-full max-w-6xl text-center">
+                {/* Header mejorado */}
+                <div className="mb-12 flex items-center justify-between px-6">
+                  <div className="flex flex-col items-start">
+                    <h2 className="text-3xl font-black uppercase tracking-wider bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent">
+                      Products
+                    </h2>
+                    <div className="mt-2 h-1 w-16 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full"></div>
+                  </div>
                   <button
-                    className="rounded-full border p-2 shadow hover:shadow-md transition"
+                    className="group relative rounded-full border border-white/20 p-3 shadow-lg hover:shadow-xl transition-all duration-300 bg-white/5 backdrop-blur-sm hover:bg-white/10 hover:border-white/40"
                     onClick={closeMenu}
                     aria-label="Cerrar"
                   >
-                    <X className="h-5 w-5" />
+                    <X size={24} className="text-white/80 group-hover:text-white transition-colors" />
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400/20 to-purple-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </button>
                 </div>
 
                 <div className="relative" ref={stageRef} onPointerMove={onPointerMove}>
-                  {/* List */}
-                  <div className="relative z-10 mx-auto flex w-full max-w-xs flex-col items-stretch gap-2 text-2xl font-extrabold uppercase">
+                  {/* Lista de productos mejorada */}
+                  <div className="relative z-10 mx-auto flex w-full max-w-md flex-col items-stretch gap-4">
                     {PRODUCT_LABELS.map((label, i) => (
-                      <span key={label} className="">
+                      <div key={label} className="group relative">
                         <button
                           type="button"
                           onMouseEnter={() => setActiveIndex(i)}
@@ -176,13 +205,38 @@ export default function ProductsMenu() {
                           onBlur={(e) => {
                             if (!e.currentTarget.contains(e.relatedTarget)) setActiveIndex(null);
                           }}
-                          className="w-full rounded-xl px-3 py-2 text-left tracking-wide text-white/80 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 transition"
+                          className="group relative w-full overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm px-8 py-6 text-left transition-all duration-300 ease-out hover:border-white/30 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/50"
                         >
-                          <span className={`inline-block transition ${activeIndex === i ? "scale-y-110" : "opacity-70"}`}>
-                            {label}
-                          </span>
+                          {/* Efecto de brillo en hover - más sutil */}
+                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/3 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-800 ease-in-out"></div>
+                          
+                          {/* Número del producto */}
+                          <div className="absolute top-2 right-4 text-xs font-mono text-white/30 group-hover:text-white/50 transition-colors">
+                            {String(i + 1).padStart(2, '0')}
+                          </div>
+                          
+                          {/* Nombre del producto */}
+                          <div className="relative">
+                            <span className={`block text-3xl font-black uppercase tracking-wider transition-all duration-200 ease-out ${
+                              activeIndex === i 
+                                ? "text-white transform scale-[1.02] translate-x-1" 
+                                : "text-white/70 group-hover:text-white/90"
+                            }`}>
+                              {label}
+                            </span>
+                            
+                            {/* Línea decorativa */}
+                            <div className={`mt-3 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 transition-all duration-300 ease-out ${
+                              activeIndex === i ? "w-full opacity-100" : "w-0 opacity-0 group-hover:w-6 group-hover:opacity-60"
+                            }`}></div>
+                          </div>
+                          
+                          {/* Indicador de estado activo */}
+                          {activeIndex === i && (
+                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-400 to-purple-400 rounded-r-full"></div>
+                          )}
                         </button>
-                      </span>
+                      </div>
                     ))}
                   </div>
 
@@ -223,7 +277,7 @@ export default function ProductsMenu() {
                   </div>
                 </div>
               </section>
-            </motion.div>
+            </div>
 
             {/* Scoped styles for the image boxes */}
             <style>{`
