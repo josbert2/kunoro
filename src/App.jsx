@@ -53,8 +53,8 @@ export default function App() {
           {/* Ícono a la izquierda si quieres */}
           {/* <YourIcon /> */}
           <div style={{ width: 190, height: 44 }}>
-            <ScrollFillWord
-              text="KUNORO"
+            <ScrollFillWordCSS
+              text="KUNOROS"
               height={44}
               base="#777"         // oscuro
               fill="#fff"         // claro (o "currentColor")
