@@ -58,7 +58,7 @@ export default function App() {
               height={44}
               base="#777"         // oscuro
               fill="#fff"         // claro (o "currentColor")
-              lenis={lenis}       // Pasar la instancia de Lenis para sincronización perfecta
+                    // Pasar la instancia de Lenis para sincronización perfecta
               // container={contentRef} // Comentado para usar viewport scroll
             />
           </div>
