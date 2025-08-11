@@ -1,9 +1,27 @@
+
+
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
-const PRODUCT_LABELS = ["Air Force 1","Air Jordan 1","Huarache","Dunk","Air Max"];
+/**
+ * ProductsMenu
+ * - Fullscreen overlay menu triggered by a hamburger button
+ * - Shows a vertical list of products
+ * - On hover/focus/tap of each item, three parallax image boxes appear
+ * - Works on mobile (tap to activate an item, tap background/close to hide)
+ * - Tailwind for layout + a small scoped <style> for the image styling
+ */
 
+const PRODUCT_LABELS = [
+  "Air Force 1",
+  "Air Jordan 1",
+  "Huarache",
+  "Dunk",
+  "Air Max",
+];
+
+// Three image sets (left, right, top) — each contains one image per product label (same order)
 const IMAGE_SETS = [
   [
     "https://assets.codepen.io/605876/air-force-1.jpeg?width=204&height=153&format=auto",
@@ -36,7 +54,7 @@ const spring = { type: "spring", stiffness: 260, damping: 24 };
 
 export default function ProductsMenu() {
   const [open, setOpen] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(null); // which product is active
   const stageRef = useRef(null);
 
   // random transforms for the three boxes per activation
@@ -52,11 +70,11 @@ export default function ProductsMenu() {
 
   useEffect(() => {
     if (activeIndex !== null) {
-      // new random transforms when a product becomes active - valores más suaves
+      // new random transforms when a product becomes active
       setTw([
-        { x: rand(-10, 10), y: rand(-10, 10), r: rand(-5, 5) },
-        { x: rand(-10, 10), y: rand(-10, 10), r: rand(-5, 5) },
-        { x: rand(-10, 10), y: rand(-10, 10), r: rand(-5, 5) },
+        { x: rand(-20, 20), y: rand(-20, 20), r: rand(-20, 20) },
+        { x: rand(-20, 20), y: rand(-20, 20), r: rand(-20, 20) },
+        { x: rand(-20, 20), y: rand(-20, 20), r: rand(-20, 20) },
       ]);
     }
   }, [activeIndex]);
@@ -77,20 +95,16 @@ export default function ProductsMenu() {
     const rect = stageRef.current.getBoundingClientRect();
     const nx = (e.clientX - rect.left) / rect.width - 0.5;
     const ny = (e.clientY - rect.top) / rect.height - 0.5;
-    
-    // Suavizar el parallax con requestAnimationFrame para evitar temblores
-    requestAnimationFrame(() => {
-      setPx(nx);
-      setPy(ny);
-    });
+    setPx(nx);
+    setPy(ny);
   };
 
-  // Parallax ranges per holder - valores más suaves para menos temblor
+  // Parallax ranges per holder (roughly based on original CSS intent)
   const PR = useMemo(
     () => [
-      { prx: -0.2, pry: 0.05 }, // left box - reducido significativamente
-      { prx: 0.1, pry: -0.1 }, // right box - reducido significativamente
-      { prx: 0.1, pry: 0.1 }, // top box - reducido significativamente
+      { prx: -0.8, pry: 0.15 }, // left box
+      { prx: 0.25, pry: -0.35 }, // right box
+      { prx: 0.3, pry: 0.35 }, // top box
     ],
     []
   );
@@ -138,9 +152,9 @@ export default function ProductsMenu() {
             >
               <section className="fluid w-full max-w-5xl text-center">
                 <div className="mb-6 flex items-center justify-between px-4">
-                  <h2 className="text-xl font-extrabold uppercase tracking-tight text-white">Products</h2>
+                  <h2 className="text-xl font-extrabold uppercase tracking-tight">Products</h2>
                   <button
-                    className="rounded-full border border-white/20 p-2 shadow hover:shadow-md transition text-white hover:bg-white/10"
+                    className="rounded-full border p-2 shadow hover:shadow-md transition"
                     onClick={closeMenu}
                     aria-label="Cerrar"
                   >
@@ -150,9 +164,9 @@ export default function ProductsMenu() {
 
                 <div className="relative" ref={stageRef} onPointerMove={onPointerMove}>
                   {/* List */}
-                  <ul className="relative z-10 mx-auto flex w-full max-w-xs flex-col items-stretch gap-2 text-2xl font-extrabold uppercase">
+                  <div className="relative z-10 mx-auto flex w-full max-w-xs flex-col items-stretch gap-2 text-2xl font-extrabold uppercase">
                     {PRODUCT_LABELS.map((label, i) => (
-                      <li key={label}>
+                      <span key={label} className="">
                         <button
                           type="button"
                           onMouseEnter={() => setActiveIndex(i)}
@@ -164,13 +178,13 @@ export default function ProductsMenu() {
                           }}
                           className="w-full rounded-xl px-3 py-2 text-left tracking-wide text-white/80 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 transition"
                         >
-                          <span className={`inline-block transition ${activeIndex === i ? "scale-y-110 text-white" : "opacity-70"}`}>
+                          <span className={`inline-block transition ${activeIndex === i ? "scale-y-110" : "opacity-70"}`}>
                             {label}
                           </span>
                         </button>
-                      </li>
+                      </span>
                     ))}
-                  </ul>
+                  </div>
 
                   {/* Stage holding the three parallax boxes */}
                   <div className="pointer-events-none absolute inset-0">
@@ -213,20 +227,8 @@ export default function ProductsMenu() {
 
             {/* Scoped styles for the image boxes */}
             <style>{`
-              .img-box { 
-                display: grid; 
-                isolation: isolate; 
-                box-shadow: 0 1px 2px hsl(0 0% 0% / .2), 0 10px 20px hsl(0 0% 0% / .2);
-              }
-              .img-box img { 
-                width: 100%; 
-                height: 100%; 
-                object-fit: cover; 
-                border-radius: 0.5rem; 
-                mix-blend-mode: plus-lighter; 
-                opacity: 0; 
-                transition: opacity .25s ease;
-              }
+              .img-box img{width:100%;height:100%;object-fit:cover;border-radius:0.5rem;mix-blend-mode:plus-lighter;opacity:0;transition:opacity .25s ease}
+              .img-box{display:grid;isolation:isolate;box-shadow:0 1px 2px hsl(0 0% 0% / .2), 0 10px 20px hsl(0 0% 0% / .2)}
             `}</style>
           </motion.div>
         )}
@@ -257,16 +259,16 @@ function BoxHolder({ pos, activeIndex, imgs, tw, px, py, pr }) {
   const transform = `translate(${tx + offX}%, ${ty + offY}%) rotate(${tr}deg)`;
 
   return (
-    <motion.div 
-      className={`${holderCls} ${size}`}
+    <motion.div className={`${holderCls} ${size}`}
       initial={{ scale: 0 }}
       animate={{ scale: activeIndex !== null ? 1 : 0 }}
       transition={{ type: "spring", stiffness: 260, damping: 20 }}
+      style={{}}
     >
       <motion.div
         className="img-box w-full h-full"
         animate={{ transform }}
-        transition={{ type: "spring", stiffness: 100, damping: 30, mass: 0.8 }}
+        transition={{ type: "tween", ease: [0.2, 0.8, 0.2, 1], duration: 0.8 }}
       >
         {imgs.map((src, i) => (
           <img
@@ -275,8 +277,8 @@ function BoxHolder({ pos, activeIndex, imgs, tw, px, py, pr }) {
             alt=""
             style={{ opacity: activeIndex === i ? 1 : 0, gridArea: "1 / 1" }}
             draggable={false}
-          />
-        ))}
+          />)
+        )}
       </motion.div>
     </motion.div>
   );
