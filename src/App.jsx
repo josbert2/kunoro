@@ -71,7 +71,7 @@ export default function App() {
           </div>
         </button>
    
-        <div className="w-screen h-screen">
+        <div className="w-full">
             <Header />
             
         
