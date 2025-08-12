@@ -3,9 +3,39 @@ import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 
 const CARDS = [
-  { id: 1, title: "Web design & development", copy: "Lorem ipsum dolor sit amet…", cta: "Find out more", color: "#ef8b8b" },
-  { id: 2, title: "E-commerce builds",        copy: "Conversion-first storefronts.", cta: "See work",     color: "#27b36a" },
-  { id: 3, title: "Brand systems",            copy: "Design libraries & guidelines.", cta: "Learn more", color: "#4f46e5" },
+  { 
+    id: 1, 
+    title: "Web Design & Development", 
+    subtitle: "WEB DESIGN", 
+    category: "WEB DEVELOPMENT",
+    year: "2025",
+    copy: "Creating stunning digital experiences with modern design principles", 
+    cta: "Find out more", 
+    color: "#ef8b8b",
+    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&h=800&fit=crop&crop=center"
+  },
+  { 
+    id: 2, 
+    title: "E-commerce Builds", 
+    subtitle: "DIGITAL COMMERCE", 
+    category: "E-COMMERCE",
+    year: "2025",
+    copy: "Conversion-first storefronts that drive results", 
+    cta: "See work", 
+    color: "#27b36a",
+    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=800&fit=crop&crop=center"
+  },
+  { 
+    id: 3, 
+    title: "Brand Systems", 
+    subtitle: "BRAND IDENTITY", 
+    category: "DESIGN SYSTEMS",
+    year: "2025",
+    copy: "Comprehensive design libraries & brand guidelines", 
+    cta: "Learn more", 
+    color: "#4f46e5",
+    image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1200&h=800&fit=crop&crop=center"
+  },
 ];
 
 export default function OverlapStackStrict() {
@@ -37,10 +67,10 @@ export default function OverlapStackStrict() {
           );
 
           // Parallax effects para elementos internos
-          const textY = useTransform(scrollYProgress, [start, end], [50, -50]);
-          const visualY = useTransform(scrollYProgress, [start, end], [-30, 30]);
-          const titleScale = useTransform(scrollYProgress, [start, end], [0.9, 1.1]);
-          const buttonRotate = useTransform(scrollYProgress, [start, end], [-2, 2]);
+          const textY = useTransform(scrollYProgress, [start, end], [30, -30]);
+          const imageY = useTransform(scrollYProgress, [start, end], [-50, 50]); // Parallax para imagen
+          const titleScale = useTransform(scrollYProgress, [start, end], [0.95, 1.05]);
+          const overlayOpacity = useTransform(scrollYProgress, [start, end], [0.4, 0.7]);
 
           // Stack effect DINÁMICO: las cartas se vuelven pequeñas cuando la siguiente las cubre
           // Cuando la siguiente carta empieza a aparecer, esta se hace pequeña y se centra
@@ -70,153 +100,143 @@ export default function OverlapStackStrict() {
                 transformOrigin: "center center",
               }}
             >
-              {/* Inner container con rounded corners y stack effect dinámico */}
+              {/* Hero card con imagen de fondo y texto superpuesto */}
               <motion.div
                 style={{
                   width: "100%",
                   height: "100%",
-                  background: "#ffffff",
                   borderRadius: 24,
-                  boxShadow: `
-                    0 30px 80px rgba(0,0,0,0.15),
-                    0 10px 30px rgba(0,0,0,0.08),
-                    inset 0 1px 0 rgba(255,255,255,0.8)
-                  `,
                   overflow: "hidden",
-                  display: "grid",
-                  gridTemplateColumns: "1.2fr 1fr",
-                  gap: "4rem",
-                  padding: "6rem 4rem",
                   position: "relative",
                   scale: stackScale, // Escala dinámica basada en scroll
                   willChange: "transform",
+                  boxShadow: `
+                    0 30px 80px rgba(0,0,0,0.2),
+                    0 10px 30px rgba(0,0,0,0.1)
+                  `,
                 }}
               >
-                {/* texto izq con parallax */}
-                <motion.div 
-                  style={{ 
-                    alignSelf: "center",
-                    y: textY, // Parallax vertical
-                    willChange: "transform"
+                {/* Imagen de fondo con parallax */}
+                <motion.div
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    backgroundImage: `url(${card.image})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    y: imageY, // Parallax de imagen
+                    scale: 1.1, // Ligeramente más grande para permitir el parallax
+                    willChange: "transform",
                   }}
-                >
-                  <motion.h2 
-                    style={{ 
-                      margin: 0, 
-                      fontSize: "clamp(32px,5vw,64px)", 
-                      color: "#111827",
-                      fontWeight: 700,
-                      lineHeight: 1.1,
-                      background: `linear-gradient(135deg, #111827 0%, ${card.color} 100%)`,
-                      backgroundClip: "text",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      scale: titleScale, // Parallax scale
-                      willChange: "transform"
-                    }}
-                  >
-                    {card.title}
-                  </motion.h2>
-                  <motion.p 
-                    style={{ 
-                      marginTop: 24, 
-                      color: "#6b7280", 
-                      maxWidth: 520,
-                      fontSize: "1.1rem",
-                      lineHeight: 1.6,
-                      y: useTransform(scrollYProgress, [start, end], [20, -20]), // Parallax independiente
-                      willChange: "transform"
-                    }}
-                  >
-                    {card.copy}
-                  </motion.p>
-                  <motion.button
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                    style={{
-                      marginTop: 32,
-                      padding: "12px 24px",
-                      borderRadius: 999,
-                      border: `2px solid ${card.color}`,
-                      background: `linear-gradient(135deg, ${card.color}15 0%, ${card.color}25 100%)`,
-                      color: card.color,
-                      cursor: "pointer",
-                      fontWeight: 600,
-                      fontSize: "0.95rem",
-                      transition: "all 0.2s ease",
-                      rotate: buttonRotate, // Parallax rotation
-                      willChange: "transform"
-                    }}
-                  >
-                    {card.cta}
-                  </motion.button>
-                </motion.div>
+                />
 
-                {/* tarjeta visual derecha con parallax */}
-                <motion.div 
-                  style={{ 
-                    display: "grid", 
-                    alignItems: "end", 
+                {/* Overlay con gradiente dinámico */}
+                <motion.div
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    background: `linear-gradient(135deg, ${card.color}80 0%, rgba(0,0,0,0.6) 100%)`,
+                    opacity: overlayOpacity,
+                    willChange: "transform",
+                  }}
+                />
+
+                {/* Contenido superpuesto */}
+                <motion.div
+                  style={{
                     position: "relative",
-                    y: visualY, // Parallax vertical
-                    willChange: "transform"
+                    zIndex: 2,
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    padding: "4rem",
+                    y: textY, // Parallax del contenido
+                    willChange: "transform",
                   }}
                 >
-                  <motion.div
-                    style={{
-                      width: "100%",
-                      height: "75%",
-                      background: `linear-gradient(135deg, ${card.color} 0%, ${card.color}dd 50%, ${card.color}bb 100%)`,
-                      borderRadius: 32,
-                      boxShadow: `
-                        0 25px 60px ${card.color}40,
-                        0 10px 30px ${card.color}30,
-                        inset 0 1px 0 rgba(255,255,255,0.3),
-                        inset 0 -1px 0 rgba(0,0,0,0.1)
-                      `,
-                      position: "relative",
-                      overflow: "hidden",
-                      rotateY: useTransform(scrollYProgress, [start, end], [0, -8]), // Parallax 3D
-                      scale: useTransform(scrollYProgress, [start, end], [1, 1.05]), // Parallax scale
-                      willChange: "transform"
-                    }}
-                  >
-                    {/* Efecto de brillo con parallax */}
-                    <motion.div
+                  {/* Header con categorías */}
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                    <div>
+                      <div style={{ 
+                        fontSize: "0.875rem", 
+                        color: "rgba(255,255,255,0.8)", 
+                        fontWeight: 600,
+                        letterSpacing: "0.1em",
+                        textTransform: "uppercase"
+                      }}>
+                        {card.subtitle}
+                      </div>
+                      <div style={{ 
+                        fontSize: "0.875rem", 
+                        color: "rgba(255,255,255,0.6)", 
+                        fontWeight: 500,
+                        letterSpacing: "0.05em",
+                        textTransform: "uppercase",
+                        marginTop: "0.25rem"
+                      }}>
+                        {card.category}
+                      </div>
+                    </div>
+                    <div style={{ 
+                      fontSize: "0.875rem", 
+                      color: "rgba(255,255,255,0.8)", 
+                      fontWeight: 600 
+                    }}>
+                      {card.year}
+                    </div>
+                  </div>
+
+                  {/* Título principal con parallax */}
+                  <motion.div style={{ flex: 1, display: "flex", alignItems: "center" }}>
+                    <motion.h1
                       style={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        height: "50%",
-                        background: "linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%)",
-                        borderRadius: "32px 32px 0 0",
-                        x: useTransform(scrollYProgress, [start, end], [0, 20]), // Parallax horizontal
-                        willChange: "transform"
+                        fontSize: "clamp(3rem, 8vw, 8rem)",
+                        fontWeight: 900,
+                        color: "#ffffff",
+                        margin: 0,
+                        lineHeight: 0.9,
+                        textTransform: "uppercase",
+                        letterSpacing: "-0.02em",
+                        scale: titleScale, // Parallax scale del título
+                        willChange: "transform",
+                        fontFamily: "Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif",
                       }}
-                    />
+                    >
+                      {card.title}
+                    </motion.h1>
                   </motion.div>
-                  
-                  {/* Capas de profundidad con parallax */}
-                  {[...Array(2)].map((_, layerIndex) => (
-                    <motion.div
-                      key={layerIndex}
+
+                  {/* Footer con descripción y CTA */}
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+                    <p style={{
+                      color: "rgba(255,255,255,0.9)",
+                      fontSize: "1.125rem",
+                      lineHeight: 1.6,
+                      maxWidth: "400px",
+                      margin: 0,
+                    }}>
+                      {card.copy}
+                    </p>
+                    <motion.button
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      whileTap={{ scale: 0.98 }}
                       style={{
-                        position: "absolute",
-                        left: `${2 + layerIndex * 1}%`,
-                        right: `${2 + layerIndex * 1}%`,
-                        bottom: `${-24 - layerIndex * 8}px`,
-                        height: 24,
-                        background: layerIndex === 0 ? "#f9fafb" : "#f3f4f6",
-                        borderBottomLeftRadius: 24,
-                        borderBottomRightRadius: 24,
-                        boxShadow: `0 ${6 + layerIndex * 4}px ${16 + layerIndex * 8}px rgba(0,0,0,${0.06 - layerIndex * 0.02})`,
-                        opacity: 0.8 - layerIndex * 0.2,
-                        y: useTransform(scrollYProgress, [start, end], [0, layerIndex * 10]), // Parallax por capa
-                        willChange: "transform"
+                        padding: "1rem 2rem",
+                        borderRadius: "2rem",
+                        border: "2px solid rgba(255,255,255,0.3)",
+                        background: "rgba(255,255,255,0.1)",
+                        color: "#ffffff",
+                        cursor: "pointer",
+                        fontWeight: 600,
+                        fontSize: "0.95rem",
+                        backdropFilter: "blur(10px)",
+                        transition: "all 0.2s ease",
                       }}
-                    />
-                  ))}
+                    >
+                      {card.cta}
+                    </motion.button>
+                  </div>
                 </motion.div>
               </motion.div>
             </motion.div>
