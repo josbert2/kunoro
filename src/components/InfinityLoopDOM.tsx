@@ -45,7 +45,7 @@ export default function InfinityLoopDOM({
     list-style-type: none;
     text-transform: uppercase;
     line-height: 1;
-    
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     height: 1lh;
     display: inline-grid;
     flex-direction: column;

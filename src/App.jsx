@@ -11,6 +11,7 @@ import ScrollFillWord from "./components/ScrollFillWord";
 import ScrollFillWordCSS from "./components/ScrollFillWordCSS";
 import Lenis from "@studio-freight/lenis";
 import ProductsMenu from "./components/ProductsMenuNew";
+import OverlapStackStrict from "./components/card-stack";
 
 export default function App() {
   
@@ -348,6 +349,8 @@ export default function App() {
           </div>
         </section>
         <InfinityLoopDOM />
+        <OverlapStackStrict />
+        
     
     </>
   

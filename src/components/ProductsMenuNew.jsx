@@ -64,12 +64,84 @@ export default function ProductsMenu() {
     { x: 0, y: 0, r: 0 },
   ]);
 
+  // Posiciones calculadas para evitar solapamiento
+  const [boxPositions, setBoxPositions] = useState([
+    { left: '20%', top: '30%' },
+    { left: '70%', top: '60%' },
+    { left: '50%', top: '20%' }
+  ]);
+
   // parallax offsets from pointer (normalized -0.5 .. 0.5)
   const [px, setPx] = useState(0);
   const [py, setPy] = useState(0);
 
+  // Función para verificar si dos cajas se superponen (mejorada)
+  const checkOverlap = (pos1, pos2, minDistance = 25) => {
+    const x1 = parseFloat(pos1.left);
+    const y1 = parseFloat(pos1.top);
+    const x2 = parseFloat(pos2.left);
+    const y2 = parseFloat(pos2.top);
+    
+    const distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    return distance < minDistance; // Aumentamos la distancia mínima
+  };
+
+  // Función mejorada para generar posiciones que no se toquen
+  const generateNonOverlappingPositions = () => {
+    const positions = [];
+    const maxAttempts = 100;
+    
+    // Zonas predefinidas más separadas para evitar solapamientos
+    const zones = [
+      { leftMin: 5, leftMax: 35, topMin: 15, topMax: 75 },   // Zona izquierda
+      { leftMin: 65, leftMax: 95, topMin: 15, topMax: 75 },  // Zona derecha  
+      { leftMin: 35, leftMax: 65, topMin: 5, topMax: 45 }    // Zona superior centro
+    ];
+    
+    for (let i = 0; i < 3; i++) {
+      let attempts = 0;
+      let validPosition = false;
+      let newPos;
+      const zone = zones[i];
+      
+      while (!validPosition && attempts < maxAttempts) {
+        // Generar posición en la zona asignada
+        newPos = { 
+          left: `${rand(zone.leftMin, zone.leftMax)}%`, 
+          top: `${rand(zone.topMin, zone.topMax)}%` 
+        };
+        
+        // Verificar si no se superpone con posiciones existentes
+        validPosition = true;
+        for (let j = 0; j < positions.length; j++) {
+          if (checkOverlap(newPos, positions[j])) {
+            validPosition = false;
+            break;
+          }
+        }
+        
+        attempts++;
+      }
+      
+      // Posiciones de fallback más separadas si no encuentra espacio
+      const fallbackPositions = [
+        { left: '20%', top: '40%' },
+        { left: '80%', top: '40%' },
+        { left: '50%', top: '20%' }
+      ];
+      
+      positions.push(newPos || fallbackPositions[i]);
+    }
+    
+    return positions;
+  };
+
   useEffect(() => {
     if (activeIndex !== null) {
+      // Generar nuevas posiciones que no se superpongan
+      const newPositions = generateNonOverlappingPositions();
+      setBoxPositions(newPositions);
+      
       // new random transforms when a product becomes active
       setTw([
         { x: rand(-20, 20), y: rand(-20, 20), r: rand(-20, 20) },
@@ -90,21 +162,24 @@ export default function ProductsMenu() {
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
+  // Parallax ultra-fluido con interpolación suave
   const onPointerMove = (e) => {
     if (!stageRef.current) return;
     const rect = stageRef.current.getBoundingClientRect();
     const nx = (e.clientX - rect.left) / rect.width - 0.5;
     const ny = (e.clientY - rect.top) / rect.height - 0.5;
-    setPx(nx);
-    setPy(ny);
+    
+    // Interpolación suave para movimiento ultra-fluido
+    setPx(prev => prev + (nx - prev) * 0.2);
+    setPy(prev => prev + (ny - prev) * 0.2);
   };
 
-  // Parallax ranges per holder (roughly based on original CSS intent)
+  // Parallax ranges optimizados para máxima fluidez
   const PR = useMemo(
     () => [
-      { prx: -0.8, pry: 0.15 }, // left box
-      { prx: 0.25, pry: -0.35 }, // right box
-      { prx: 0.3, pry: 0.35 }, // top box
+      { prx: -0.3, pry: 0.1 }, // left box - más sutil
+      { prx: 0.15, pry: -0.2 }, // right box - más sutil
+      { prx: 0.2, pry: 0.25 }, // top box - más sutil
     ],
     []
   );
@@ -205,10 +280,9 @@ export default function ProductsMenu() {
                           onBlur={(e) => {
                             if (!e.currentTarget.contains(e.relatedTarget)) setActiveIndex(null);
                           }}
-                          className="group relative w-full overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm px-8 py-6 text-left transition-all duration-300 ease-out hover:border-white/30 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/50"
+                          className="group relative w-full overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm px-8 py-6 text-left transition-all duration-75 ease-in hover:border-white/30 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/50"
                         >
-                          {/* Efecto de brillo en hover - más sutil */}
-                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/3 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-800 ease-in-out"></div>
+                          {/* Efecto de brillo desactivado para máxima estabilidad */}
                           
                           {/* Número del producto */}
                           <div className="absolute top-2 right-4 text-xs font-mono text-white/30 group-hover:text-white/50 transition-colors">
@@ -217,17 +291,17 @@ export default function ProductsMenu() {
                           
                           {/* Nombre del producto */}
                           <div className="relative">
-                            <span className={`block text-3xl font-black uppercase tracking-wider transition-all duration-200 ease-out ${
+                            <span className={`block text-3xl font-black uppercase tracking-wider transition-all duration-50 ease-in ${
                               activeIndex === i 
-                                ? "text-white transform scale-[1.02] translate-x-1" 
+                                ? "text-white" 
                                 : "text-white/70 group-hover:text-white/90"
                             }`}>
                               {label}
                             </span>
                             
                             {/* Línea decorativa */}
-                            <div className={`mt-3 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 transition-all duration-300 ease-out ${
-                              activeIndex === i ? "w-full opacity-100" : "w-0 opacity-0 group-hover:w-6 group-hover:opacity-60"
+                            <div className={`mt-3 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 transition-all duration-75 ease-in ${
+                              activeIndex === i ? "w-full opacity-100" : "w-0 opacity-0 group-hover:w-4 group-hover:opacity-60"
                             }`}></div>
                           </div>
                           
@@ -251,6 +325,7 @@ export default function ProductsMenu() {
                       px={px}
                       py={py}
                       pr={PR[0]}
+                      position={boxPositions[0]}
                     />
 
                     {/* Right holder */}
@@ -262,6 +337,7 @@ export default function ProductsMenu() {
                       px={px}
                       py={py}
                       pr={PR[1]}
+                      position={boxPositions[1]}
                     />
 
                     {/* Top holder */}
@@ -273,6 +349,7 @@ export default function ProductsMenu() {
                       px={px}
                       py={py}
                       pr={PR[2]}
+                      position={boxPositions[2]}
                     />
                   </div>
                 </div>
@@ -291,39 +368,16 @@ export default function ProductsMenu() {
   );
 }
 
-function BoxHolder({ pos, activeIndex, imgs, tw, px, py, pr }) {
-  // Posiciones aleatorias que cambian con cada activeIndex
-  const [randomPosition, setRandomPosition] = useState({ left: '50%', top: '50%' });
-  const [hasBeenActive, setHasBeenActive] = useState(false);
+function BoxHolder({ pos, activeIndex, imgs, tw, px, py, pr, position }) {
+  // Usar la posición calculada sin solapamiento
+  const [currentPosition, setCurrentPosition] = useState(position);
 
   useEffect(() => {
-    if (activeIndex !== null) {
-      // Marcar que ya ha sido activado
-      setHasBeenActive(true);
-      
-      // Generar posiciones más aleatorias con diferentes rangos según la posición
-      let newLeft, newTop;
-      
-      if (pos === "left") {
-        // Lado izquierdo con más variabilidad
-        newLeft = rand(5, 45); // Izquierda de la pantalla
-        newTop = rand(15, 85);
-      } else if (pos === "right") {
-        // Lado derecho con más variabilidad
-        newLeft = rand(55, 95); // Derecha de la pantalla
-        newTop = rand(15, 85);
-      } else {
-        // Top - puede aparecer en cualquier lugar
-        newLeft = rand(15, 85);
-        newTop = rand(10, 70); // Más hacia arriba
-      }
-      
-      setRandomPosition({
-        left: `${newLeft}%`,
-        top: `${newTop}%`
-      });
+    if (activeIndex !== null && position) {
+      // Usar la posición calculada que no se superpone
+      setCurrentPosition(position);
     }
-  }, [activeIndex, pos]); // Agregar pos como dependencia
+  }, [activeIndex, position]);
 
   // position classes per holder - ahora con posiciones dinámicas
   const base = "pointer-events-none absolute -translate-x-1/2 -translate-y-1/2";
@@ -343,23 +397,40 @@ function BoxHolder({ pos, activeIndex, imgs, tw, px, py, pr }) {
   return (
     <motion.div 
       className={`${holderCls} ${size}`}
-      initial={{ scale: 0 }}
+      initial={{ scale: 0, left: '50%', top: '50%' }}
       animate={{ 
         scale: activeIndex !== null ? 1 : 0, // Se desaparece cuando no hay hover activo
-        left: randomPosition.left,
-        top: randomPosition.top
+        left: currentPosition?.left || '50%',
+        top: currentPosition?.top || '50%'
       }}
       transition={{ 
-        scale: { type: "spring", stiffness: 260, damping: 20 },
-        left: { type: "spring", stiffness: 120, damping: 25, duration: 0.8 },
-        top: { type: "spring", stiffness: 120, damping: 25, duration: 0.8 }
+        scale: { 
+          type: "spring", 
+          stiffness: 400, 
+          damping: 40,
+          duration: 0.25
+        },
+        left: { 
+          type: "spring", 
+          stiffness: 200, 
+          damping: 35, 
+          mass: 0.8,
+          duration: 0.6
+        },
+        top: { 
+          type: "spring", 
+          stiffness: 200, 
+          damping: 35, 
+          mass: 0.8,
+          duration: 0.6
+        }
       }}
       style={{ position: 'absolute', zIndex: 1 }} // z-index bajo para no interferir
     >
       <motion.div
         className="img-box w-full h-full"
         animate={{ transform }}
-        transition={{ type: "tween", ease: [0.2, 0.8, 0.2, 1], duration: 0.8 }}
+        transition={{ type: "tween", ease: [0.25, 0.46, 0.45, 0.94], duration: 0.4 }}
       >
         {imgs.map((src, i) => (
           <img
