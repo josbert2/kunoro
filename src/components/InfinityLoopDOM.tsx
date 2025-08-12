@@ -118,14 +118,10 @@ export default function InfinityLoopDOM({
   *, *:after, *:before { box-sizing: border-box; }
 
   body {
-    display: grid;
-    place-items: center;
-    min-height: 100vh;
-    font-family: 'SF Pro Text','SF Pro Icons','AOS Icons','Helvetica Neue',
-      Helvetica, Arial, sans-serif, system-ui;
+
   }
 
-  body::before {
+  /*body::before {
     --size: 45px;
     --line: color-mix(in hsl, canvasText, transparent 70%);
     content: '';
@@ -135,7 +131,7 @@ export default function InfinityLoopDOM({
       linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50%/var(--size) var(--size);
     mask: linear-gradient(-20deg, transparent 50%, white);
     top: 0; transform-style: flat; pointer-events: none; z-index: -1;
-  }
+  }*/
 
   .bear-link { color: canvasText; position: fixed; top: 1rem; left: 1rem; width: 48px; aspect-ratio: 1; display: grid; place-items: center; opacity: .8; }
   :where(.x-link, .bear-link):is(:hover, :focus-visible) { opacity: 1; }

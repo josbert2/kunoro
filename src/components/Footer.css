@@ -1,0 +1,267 @@
+.overlap-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, #000000, #0a0a0a 90%);
+  color: #fff;
+  z-index: 100;
+  height: 100vh; /* Full screen height */
+  transform: translateY(100%);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.overlap-footer::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background: linear-gradient(to top, rgba(75, 75, 75, 0.35), transparent);
+  transition: height 1.5s cubic-bezier(0.19, 1, 0.22, 1) 0.2s;
+  z-index: 1;
+}
+
+.overlap-footer.visible {
+  transform: translateY(0);
+}
+
+.overlap-footer.visible::before {
+  height: 100%;
+}
+
+/* Logo gigante KUNORO en la parte inferior */
+.footer-brand-bg {
+  position: absolute;
+  bottom: -10vh;
+  left: 0;
+  width: 100%;
+  text-align: left;
+  z-index: 0;
+  padding: 0 4rem;
+  pointer-events: none; /* Permite que se pueda interactuar con elementos debajo */
+  transform: translateY(30%);
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, opacity 1s ease 0.2s;
+  opacity: 0;
+}
+
+.overlap-footer.visible .footer-brand-bg {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.footer-brand-text {
+  font-size: 25vw;
+  font-weight: 900;
+  line-height: 0.8;
+  opacity: 0.08;
+  letter-spacing: -0.05em;
+  color: #fff;
+  margin: 0;
+  user-select: none;
+  text-transform: uppercase;
+  background: linear-gradient(to top, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 50%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* Footer Left Section */
+.footer-left {
+  width: 30%;
+}
+
+.footer-logo {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.footer-description {
+  color: #7f7f7f;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #7f7f7f;
+  transition: all 0.2s;
+}
+
+.social-link:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+/* Footer Middle Section */
+.footer-middle {
+  display: flex;
+  gap: 3rem;
+  width: 40%;
+}
+
+.footer-column {
+  flex: 1;
+}
+
+.footer-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.footer-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-menu li {
+  margin-bottom: 0.8rem;
+}
+
+.footer-menu a {
+  color: #7f7f7f;
+  text-decoration: none;
+  transition: color 0.2s;
+  font-size: 0.95rem;
+}
+
+.footer-menu a:hover {
+  color: #fff;
+}
+
+/* Footer Right Section */
+.footer-right {
+  width: 30%;
+}
+
+.newsletter-text {
+  color: #7f7f7f;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.newsletter-form {
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+.newsletter-form input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  outline: none;
+}
+
+.newsletter-form button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #85c500;
+  border: none;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+}
+
+/* Footer Bottom Section */
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-copyright {
+  font-size: 0.85rem;
+  color: #7f7f7f;
+}
+
+.footer-legal {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-legal a {
+  color: #7f7f7f;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-legal a:hover {
+  color: #fff;
+}
+
+@media (max-width: 1024px) {
+  .footer-container {
+    flex-wrap: wrap;
+  }
+  
+  .footer-left {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+  
+  .footer-middle {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+  
+  .footer-right {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-middle {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .footer-bottom {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .footer-legal {
+    justify-content: center;
+  }
+}

@@ -190,7 +190,7 @@ export default function ProductsMenu() {
   };
 
   return (
-    <div className="relative">
+    <div className="top-5 right-5 z-50 absolute">
       {/* Hamburger Button */}
       <button
         className="inline-flex items-center gap-2 rounded-2xl border px-4 py-2 text-sm font-medium shadow-sm hover:shadow transition"
