@@ -192,15 +192,15 @@ export default function ProductsMenu() {
   return (
     <div className="top-5 right-5 z-50 absolute">
       {/* Hamburger Button */}
-      <button
-        className="inline-flex items-center gap-2 rounded-2xl border px-4 py-2 text-sm font-medium shadow-sm hover:shadow transition"
+      <div
+        className="inline-flex items-center gap-2 rounded-2xl cursor-pointer px-4 py-2 text-sm font-medium transition"
         aria-haspopup="dialog"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
       >
-        {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />} 
-        <span>Menu</span>
-      </button>
+        {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5 stroke-black" />} 
+        
+      </div>
 
       <AnimatePresence>
         {open && (

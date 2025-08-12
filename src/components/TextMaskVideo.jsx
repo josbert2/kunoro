@@ -40,7 +40,7 @@ const TextMaskVideo = ({ text, videoSrc }) => {
               fontFamily="Geist, sans-serif"
               fill="white"
               style={{
-                letterSpacing: "-78px"
+                letterSpacing: "-84px"
               }}
             >
               {text.split('').map((letter, index) => (

@@ -13,6 +13,7 @@ import Lenis from "@studio-freight/lenis";
 import ProductsMenu from "./components/ProductsMenuNew";
 import OverlapStackStrict from "./components/card-stack";
 import Footer from "./components/Footer";
+import LiquidBackground from "./components/LiquidBackground";
 
 export default function App() {
   
@@ -51,6 +52,7 @@ export default function App() {
 
   return (
     <>
+ 
       <div className="w-full">
        
         <button style={{
@@ -90,7 +92,7 @@ export default function App() {
                 flexShrink: 0,
                 transform: "rotate(-4deg)"
               }}>
-                <TextMaskVideo text="STUDIO" videoSrc={videoSrc} />
+                <TextMaskVideo text="KUNORO" videoSrc={videoSrc} />
               </div>
             </section>
             
@@ -279,7 +281,7 @@ export default function App() {
             </div>
             
         
-      
+            
           {/* Brands Section */}
           <section className="py-20 px-8 bg-white"  ref={contentRef}>
             <div className="max-w-6xl mx-auto text-center">

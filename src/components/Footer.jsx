@@ -49,21 +49,15 @@ const Footer = () => {
     };
   }, []);
   
-  // Activa la visibilidad del footer manualmente al inicio
-  useEffect(() => {
-    // Forzamos la visibilidad después de un breve retraso
-    const forceVisibilityTimer = setTimeout(() => {
-      setIsVisible(true);
-    }, 1000);
-    
-    return () => clearTimeout(forceVisibilityTimer);
-  }, []);
+  // Eliminado el timer que forzaba la visibilidad al inicio
 
   return (
     <div className={`overlap-footer ${isVisible ? 'visible' : ''}`}>
-      {/* Texto gigante KUNORO de fondo */}
+      {/* Texto gigante KUNORO de fondo con efecto de fill */}
       <div className="footer-brand-bg">
-        <h1 className="footer-brand-text">KUNORO</h1>
+        <h1 className="footer-brand-text">
+          <span className="text-fill">KUNORO</span>
+        </h1>
       </div>
       
       <div className="footer-container">

@@ -67,17 +67,43 @@
   font-size: 30vw; /* Tamaño aumentado */
   font-weight: 900;
   line-height: 0.8;
-  opacity: 0.25; /* Aumentada la opacidad significativamente */
   letter-spacing: -0.05em;
-  color: #fff;
   margin: 0;
   user-select: none;
   text-transform: uppercase;
+  position: relative;
+  color: transparent;
+}
+
+/* Elemento para el fill */
+.footer-brand-text .text-fill {
+  position: relative;
+  display: block;
+  color: transparent;
+  overflow: hidden;
   background: linear-gradient(to top, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.15) 50%);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: 0 0 60px rgba(255,255,255,0.1); /* Resplandor más pronunciado */
+  text-shadow: 0 0 60px rgba(255,255,255,0.1);
+}
+
+/* Efecto de llenado del texto */
+.footer-brand-text .text-fill::after {
+  content: 'KUNORO';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 0%;
+  width: 100%;
+  background: linear-gradient(to top, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.3) 60%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: height 1.8s cubic-bezier(0.19, 1, 0.22, 1) 0.4s;
+}
+
+.overlap-footer.visible .footer-brand-text .text-fill::after {
+  height: 100%;
 }
 
 .footer-container {
