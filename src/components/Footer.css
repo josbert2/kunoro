@@ -15,6 +15,7 @@
   overflow: hidden;
 }
 
+/* Efecto de auto-fill mucho más visible con gradiente */
 .overlap-footer::before {
   content: '';
   position: absolute;
@@ -22,10 +23,17 @@
   left: 0;
   width: 100%;
   height: 0;
-  background: linear-gradient(to top, rgba(75, 75, 75, 0.35), transparent);
-  transition: height 1.5s cubic-bezier(0.19, 1, 0.22, 1) 0.2s;
+  background: linear-gradient(to top, 
+    rgba(120, 120, 120, 0.6), 
+    rgba(90, 90, 90, 0.4) 40%, 
+    rgba(60, 60, 60, 0.2) 70%, 
+    transparent);
+  transition: height 1.8s cubic-bezier(0.165, 0.84, 0.44, 1) 0.1s;
   z-index: 1;
+  pointer-events: none;
 }
+
+/* Removido el segundo efecto de radial gradient */
 
 .overlap-footer.visible {
   transform: translateY(0);
@@ -38,11 +46,11 @@
 /* Logo gigante KUNORO en la parte inferior */
 .footer-brand-bg {
   position: absolute;
-  bottom: -10vh;
+  bottom: -8vh; /* Ajustado para posicionarlo mejor */
   left: 0;
   width: 100%;
   text-align: left;
-  z-index: 0;
+  z-index: 2; /* Aumentado para que sea más visible sobre el fill */
   padding: 0 4rem;
   pointer-events: none; /* Permite que se pueda interactuar con elementos debajo */
   transform: translateY(30%);
@@ -56,19 +64,20 @@
 }
 
 .footer-brand-text {
-  font-size: 25vw;
+  font-size: 30vw; /* Tamaño aumentado */
   font-weight: 900;
   line-height: 0.8;
-  opacity: 0.08;
+  opacity: 0.25; /* Aumentada la opacidad significativamente */
   letter-spacing: -0.05em;
   color: #fff;
   margin: 0;
   user-select: none;
   text-transform: uppercase;
-  background: linear-gradient(to top, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 50%);
+  background: linear-gradient(to top, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.15) 50%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  text-shadow: 0 0 60px rgba(255,255,255,0.1); /* Resplandor más pronunciado */
 }
 
 .footer-container {
