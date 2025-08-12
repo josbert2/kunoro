@@ -72,6 +72,13 @@ export default function OverlapStackStrict() {
           const titleScale = useTransform(scrollYProgress, [start, end], [0.95, 1.05]);
           const overlayOpacity = useTransform(scrollYProgress, [start, end], [0.4, 0.7]);
 
+          // Progress indicator fluido para cada carta
+          const progressWidth = useTransform(
+            scrollYProgress,
+            [start, end],
+            ["0%", "100%"]
+          );
+
           // Stack effect DINÁMICO: las cartas se vuelven pequeñas cuando la siguiente las cubre
           // Cuando la siguiente carta empieza a aparecer, esta se hace pequeña y se centra
           const nextStart = ((i + 1) * seg); // Cuándo empieza la siguiente carta
@@ -185,6 +192,42 @@ export default function OverlapStackStrict() {
                     }}>
                       {card.year}
                     </div>
+                  </div>
+
+                  {/* Progress indicator fluido */}
+                  <div style={{
+                    position: "absolute",
+                    top: "3rem",
+                    right: "4rem",
+                    width: "200px",
+                    height: "2px",
+                    background: "rgba(255,255,255,0.2)",
+                    borderRadius: "1px",
+                    overflow: "hidden"
+                  }}>
+                    <motion.div
+                      style={{
+                        height: "100%",
+                        background: "linear-gradient(90deg, rgba(255,255,255,0.8) 0%, #ffffff 100%)",
+                        borderRadius: "1px",
+                        width: progressWidth,
+                        willChange: "transform",
+                        boxShadow: "0 0 10px rgba(255,255,255,0.3)"
+                      }}
+                    />
+                  </div>
+
+                  {/* Indicador numérico del progreso */}
+                  <div style={{
+                    position: "absolute",
+                    top: "2rem",
+                    right: "4rem",
+                    fontSize: "0.75rem",
+                    color: "rgba(255,255,255,0.6)",
+                    fontWeight: 500,
+                    letterSpacing: "0.05em"
+                  }}>
+                    {String(i + 1).padStart(2, '0')} / {String(CARDS.length).padStart(2, '0')}
                   </div>
 
                   {/* Título principal con parallax */}
