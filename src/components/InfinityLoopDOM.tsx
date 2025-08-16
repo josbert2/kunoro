@@ -118,10 +118,14 @@ export default function InfinityLoopDOM({
   *, *:after, *:before { box-sizing: border-box; }
 
   body {
-
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text','SF Pro Icons','AOS Icons','Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
   }
 
-  /*body::before {
+  body::before {
     --size: 45px;
     --line: color-mix(in hsl, canvasText, transparent 70%);
     content: '';
@@ -131,7 +135,7 @@ export default function InfinityLoopDOM({
       linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50%/var(--size) var(--size);
     mask: linear-gradient(-20deg, transparent 50%, white);
     top: 0; transform-style: flat; pointer-events: none; z-index: -1;
-  }*/
+  }
 
   .bear-link { color: canvasText; position: fixed; top: 1rem; left: 1rem; width: 48px; aspect-ratio: 1; display: grid; place-items: center; opacity: .8; }
   :where(.x-link, .bear-link):is(:hover, :focus-visible) { opacity: 1; }
@@ -154,6 +158,15 @@ export default function InfinityLoopDOM({
       const originalWordsCount = words.length;
       const totalSets = 3; // above, main, below
       const spacing = 100; // Distance between items in percentage
+
+      // Cache element widths to avoid layout thrashing
+      const elementWidths = new Map<HTMLElement, number>();
+      
+      // Pre-calculate all widths once
+      allItems.forEach((item) => {
+        const width = item.getBoundingClientRect().width;
+        elementWidths.set(item, width);
+      });
 
       // Position all items initially
       allItems.forEach((item, index) => {
@@ -214,8 +227,8 @@ export default function InfinityLoopDOM({
         const centerItem = findCenteredItem();
         if (!centerItem) return;
         
-        const w = centerItem.getBoundingClientRect().width;
-        console.log('Updating indicator for:', centerItem.textContent, 'width:', w);
+        // Use cached width to avoid layout thrashing
+        const w = elementWidths.get(centerItem) || 0;
         
         // Fast indicator update without interruptions
         const randomColor = customColors[Math.floor(Math.random() * customColors.length)];
@@ -233,8 +246,8 @@ export default function InfinityLoopDOM({
         const nextItem = findNextCenterItem();
         if (!nextItem) return;
         
-        const w = nextItem.getBoundingClientRect().width;
-        console.log('Updating indicator for NEXT word:', nextItem.textContent, 'width:', w);
+        // Use cached width to avoid layout thrashing
+        const w = elementWidths.get(nextItem) || 0;
         
         // Fast indicator update without interruptions
         const randomColor = customColors[Math.floor(Math.random() * customColors.length)];
@@ -269,33 +282,32 @@ export default function InfinityLoopDOM({
             }
           });
 
-          // Move all items up by one position quickly
-          allItems.forEach((item) => {
-            moveTL.to(item, {
-              yPercent: `-=${spacing}`,
-              duration: 0.7, // Fast movement
-              ease: "back.inOut(2.7)",
-              modifiers: {
-                yPercent: (value) => {
-                  const numValue = parseFloat(value);
-                  
-                  // True infinite wrapping - when items go too far up, wrap them to bottom
-                  if (numValue <= -(spacing * 2)) {
-                    // Move item to bottom of the visible area
-                    return String(numValue + (spacing * originalWordsCount));
-                  }
-                  
-                  // When items go too far down, wrap them to top
-                  if (numValue >= (spacing * (originalWordsCount + 1))) {
-                    // Move item to top of the visible area
-                    return String(numValue - (spacing * originalWordsCount));
-                  }
-                  
-                  return value;
+          // Move all items up by one position quickly - batch animation for better performance
+          moveTL.to(allItems, {
+            yPercent: `-=${spacing}`,
+            duration: 0.7, // Fast movement
+            ease: "back.inOut(2.7)",
+            stagger: 0, // All items move simultaneously
+            modifiers: {
+              yPercent: (value) => {
+                const numValue = parseFloat(value);
+                
+                // True infinite wrapping - when items go too far up, wrap them to bottom
+                if (numValue <= -(spacing * 2)) {
+                  // Move item to bottom of the visible area
+                  return String(numValue + (spacing * originalWordsCount));
                 }
+                
+                // When items go too far down, wrap them to top
+                if (numValue >= (spacing * (originalWordsCount + 1))) {
+                  // Move item to top of the visible area
+                  return String(numValue - (spacing * originalWordsCount));
+                }
+                
+                return value;
               }
-            }, 0); // All items move simultaneously
-          });
+            }
+          }, 0);
         };
 
         // Start the step sequence

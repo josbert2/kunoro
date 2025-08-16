@@ -1,16 +1,24 @@
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import "./textMaskVideo.css";
 
 
 const TextMaskVideo = ({ text, videoSrc }) => {
   const videoRef = useRef(null);
   const svgId = `text-mask-${Math.random().toString(36).substring(2, 9)}`;
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.play();
-    }
+    const video = videoRef.current;
+    if (!video) return;
+    
+    const handleLoadedData = () => {
+      setIsVideoLoaded(true);
+      video.play().catch(console.warn);
+    };
+    
+    video.addEventListener('loadeddata', handleLoadedData);
+    return () => video.removeEventListener('loadeddata', handleLoadedData);
   }, []);
 
   return (
@@ -73,12 +81,14 @@ const TextMaskVideo = ({ text, videoSrc }) => {
               style={{ 
                 objectFit: 'cover', 
                 width: '100%', 
-                height: '100%' 
+                height: '100%',
+                opacity: isVideoLoaded ? 1 : 0,
+                transition: 'opacity 0.3s ease'
               }}
-              autoPlay 
               muted 
               loop 
               playsInline
+              preload="metadata"
             >
               <source src={videoSrc} type="video/mp4" />
             </video>

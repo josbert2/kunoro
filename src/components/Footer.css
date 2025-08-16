@@ -64,7 +64,7 @@
 }
 
 .footer-brand-text {
-  font-size: 30vw; /* Tamaño aumentado */
+  font-size: 22vw; /* Tamaño aumentado */
   font-weight: 900;
   line-height: 0.8;
   letter-spacing: -0.05em;
@@ -110,7 +110,8 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  max-width: 1200px;
+  max-width: 1480px;
+  width: 100%;
   margin: 0 auto;
   padding: 4rem 2rem;
   position: relative;
@@ -133,6 +134,7 @@
   font-size: 0.95rem;
   line-height: 1.6;
   margin-bottom: 1.5rem;
+  font-family: 'Kanit';
 }
 
 .social-links {
@@ -178,6 +180,10 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
 }
 
 .footer-menu li {

@@ -1,45 +1,12 @@
 "use client";
 
-import React, { ElementType, memo, useEffect, useState } from "react";
 import { cn } from "../utils/cn";
-import {
-  AnimatePresence,
-  motion,
-  MotionProps,
-  Variants,
-} from "motion/react";
+import { AnimatePresence, motion, MotionProps, Variants } from "motion/react";
+import { ElementType, memo } from "react";
 
-type AnimationType = "text" | "word" | "character" | "line";
-type AnimationVariant =
-  | "fadeIn"
-  | "blurIn"
-  | "blurInUp"
-  | "blurInDown"
-  | "slideUp"
-  | "slideDown"
-  | "slideLeft"
-  | "slideRight"
-  | "scaleUp"
-  | "scaleDown";
 
-interface TextAnimateProps extends MotionProps {
-  children: string | string[];
-  className?: string;
-  segmentClassName?: string;
-  delay?: number;
-  duration?: number;
-  variants?: Variants;
-  as?: ElementType;
-  by?: AnimationType;
-  startOnView?: boolean;
-  once?: boolean;
-  animation?: AnimationVariant;
-  loopWords?: string[];
-  rotateInterval?: number;
-  colors?: string[];
-}
 
-const staggerTimings: Record<AnimationType, number> = {
+const staggerTimings = {
   text: 0.06,
   word: 0.05,
   character: 0.03,
@@ -64,7 +31,7 @@ const defaultContainerVariants = {
   },
 };
 
-const defaultItemVariants: Variants = {
+const defaultItemVariants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
@@ -74,10 +41,7 @@ const defaultItemVariants: Variants = {
   },
 };
 
-const defaultItemAnimationVariants: Record<
-  AnimationVariant,
-  { container: Variants; item: Variants }
-> = {
+const defaultItemAnimationVariants = {
   fadeIn: {
     container: defaultContainerVariants,
     item: {
@@ -85,7 +49,9 @@ const defaultItemAnimationVariants: Record<
       show: {
         opacity: 1,
         y: 0,
-        transition: { duration: 0.3 },
+        transition: {
+          duration: 0.3,
+        },
       },
       exit: {
         opacity: 0,
@@ -101,7 +67,9 @@ const defaultItemAnimationVariants: Record<
       show: {
         opacity: 1,
         filter: "blur(0px)",
-        transition: { duration: 0.3 },
+        transition: {
+          duration: 0.3,
+        },
       },
       exit: {
         opacity: 0,
@@ -159,12 +127,16 @@ const defaultItemAnimationVariants: Record<
       show: {
         y: 0,
         opacity: 1,
-        transition: { duration: 0.3 },
+        transition: {
+          duration: 0.3,
+        },
       },
       exit: {
         y: -20,
         opacity: 0,
-        transition: { duration: 0.3 },
+        transition: {
+          duration: 0.3,
+        },
       },
     },
   },
@@ -276,56 +248,24 @@ const TextAnimateBase = ({
   once = false,
   by = "word",
   animation = "fadeIn",
-  loopWords,
-  rotateInterval = 2000,
-  colors,
   ...props
-}: TextAnimateProps) => {
-  const MotionComponent = motion(Component);
+}) => {
+  const MotionComponent = motion.create(Component);
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const color = colors?.[currentIndex % (colors.length || 1)];
-
-  useEffect(() => {
-    if (!loopWords || loopWords.length === 0) return;
-    
-    let timeoutId;
-    const scheduleNext = () => {
-      timeoutId = setTimeout(() => {
-        setCurrentIndex((prev) => (prev + 1) % loopWords.length);
-        scheduleNext();
-      }, rotateInterval);
-    };
-    
-    scheduleNext();
-    return () => {
-      if (timeoutId) clearTimeout(timeoutId);
-    };
-  }, [loopWords, rotateInterval]);
-
-  const textToAnimate =
-    loopWords && loopWords.length > 0
-      ? loopWords[currentIndex]
-      : typeof children === "string"
-        ? children
-        : Array.isArray(children)
-          ? children.join(" ")
-          : "";
-
-  let segments: string[] = [];
+  let segments = [];
   switch (by) {
     case "word":
-      segments = textToAnimate.split(/(\s+)/);
+      segments = children.split(/(\s+)/);
       break;
     case "character":
-      segments = textToAnimate.split("");
+      segments = children.split("");
       break;
     case "line":
-      segments = textToAnimate.split("\n");
+      segments = children.split("\n");
       break;
     case "text":
     default:
-      segments = [textToAnimate];
+      segments = [children];
       break;
   }
 
@@ -372,16 +312,12 @@ const TextAnimateBase = ({
           },
           item: defaultItemAnimationVariants[animation].item,
         }
-      : {
-          container: defaultContainerVariants,
-          item: defaultItemVariants,
-        };
+      : { container: defaultContainerVariants, item: defaultItemVariants };
 
   return (
     <AnimatePresence mode="popLayout">
       <MotionComponent
-        key={`text-animate-${textToAnimate}`}
-        variants={finalVariants.container as Variants}
+        variants={finalVariants.container}
         initial="hidden"
         whileInView={startOnView ? "show" : undefined}
         animate={startOnView ? undefined : "show"}
@@ -395,9 +331,9 @@ const TextAnimateBase = ({
             key={`${by}-${segment}-${i}`}
             variants={finalVariants.item}
             custom={i * staggerTimings[by]}
-            style={color ? { color } : undefined}
             className={cn(
               by === "line" ? "block" : "inline-block whitespace-pre",
+              by === "character" && "",
               segmentClassName,
             )}
           >
@@ -409,4 +345,5 @@ const TextAnimateBase = ({
   );
 };
 
+// Export the memoized version
 export const TextAnimate = memo(TextAnimateBase);

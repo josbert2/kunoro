@@ -30,7 +30,7 @@ export default function ScrollFillWordCSS({
     const unsub = smooth.on("change", (v) => {
       const p = Math.max(0, Math.min(1, v));
       setProgress(p);
-      console.log(`ScrollFillWordCSS progress: ${p.toFixed(3)}`);
+   
     });
     return () => unsub();
   }, [smooth]);
