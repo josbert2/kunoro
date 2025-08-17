@@ -55,14 +55,14 @@ const Footer = () => {
     <div className={`overlap-footer ${isVisible ? 'visible' : ''}`}>
       {/* Texto gigante KUNORO de fondo con efecto de fill */}
       <div className="footer-brand-bg">
-        <h1 className="footer-brand-text">
+        <h1 className="footer-brand-text syne-font">
           <span className="text-fill">KUNORO</span>
         </h1>
       </div>
       
       <div className="footer-container ">
         <div className='flex gap-2'>
-          <div className="footer-left pr-10">
+          <div className="footer-left pr-10 syne-font">
             <h2 className="footer-logo">KUNORO</h2>
             <p className="footer-description">We are committed to helping you succeed, and we will work with you every step of the way.</p>
             <div className="social-links">
@@ -91,8 +91,8 @@ const Footer = () => {
           </div>
           
           <div className="footer-middle">
-            <div className="footer-column">
-              <h3 className="footer-title">Service</h3>
+            <div className="footer-column syne-font">
+              <h3 className="footer-title ">Service</h3>
               <ul className="footer-menu flex flex-col">
                 <li><a href="#">UI/UX Design</a></li>
                 <li><a href="#">Web Design</a></li>
@@ -102,7 +102,7 @@ const Footer = () => {
               </ul>
             </div>
             
-            <div className="footer-column">
+            <div className="footer-column syne-font">
               <h3 className="footer-title">Company</h3>
               <ul className="footer-menu  flex flex-col">
                 <li><a href="#">Home</a></li>
@@ -115,8 +115,8 @@ const Footer = () => {
           </div>
           
           <div className="footer-right">
-            <h3 className="footer-title">Newsletter</h3>
-            <p className="newsletter-text">Subscribe our newsletter to get the latest news and updates!</p>
+            <h3 className="footer-title syne-font">Newsletter</h3>
+            <p className="newsletter-text syne-font">Subscribe our newsletter to get the latest news and updates!</p>
             
             <div className="newsletter-form">
               <input type="email" placeholder="Enter your email" />
@@ -129,7 +129,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="footer-bottom">
+        <div className="footer-bottom syne-font">
           <div className="footer-copyright">
             <p>© 2025 KUNORO. All Rights Reserved.</p>
           </div>

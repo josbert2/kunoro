@@ -8,7 +8,7 @@
   z-index: 100;
   height: 100vh; /* Full screen height */
   transform: translateY(100%);
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -28,7 +28,7 @@
     rgba(90, 90, 90, 0.4) 40%, 
     rgba(60, 60, 60, 0.2) 70%, 
     transparent);
-  transition: height 1.8s cubic-bezier(0.165, 0.84, 0.44, 1) 0.1s;
+  transition: height 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s;
   z-index: 1;
   pointer-events: none;
 }
@@ -46,15 +46,15 @@
 /* Logo gigante KUNORO en la parte inferior */
 .footer-brand-bg {
   position: absolute;
-  bottom: -8vh; /* Ajustado para posicionarlo mejor */
+  bottom: -5vh; /* Ajustado para posicionarlo mejor */
   left: 0;
   width: 100%;
-  text-align: left;
+  text-align: center;
   z-index: 2; /* Aumentado para que sea más visible sobre el fill */
-  padding: 0 4rem;
+
   pointer-events: none; /* Permite que se pueda interactuar con elementos debajo */
   transform: translateY(30%);
-  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, opacity 1s ease 0.2s;
+  transition: transform 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s, opacity 1.5s ease 0.4s;
   opacity: 0;
 }
 
@@ -64,7 +64,7 @@
 }
 
 .footer-brand-text {
-  font-size: 22vw; /* Tamaño aumentado */
+  font-size: 13vw; /* Tamaño aumentado */
   font-weight: 900;
   line-height: 0.8;
   letter-spacing: -0.05em;
@@ -84,7 +84,7 @@
   background: linear-gradient(to top, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.15) 50%);
   -webkit-background-clip: text;
   background-clip: text;
-  text-shadow: 0 0 60px rgba(255,255,255,0.1);
+  
 }
 
 /* Efecto de llenado del texto */
@@ -99,7 +99,7 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  transition: height 1.8s cubic-bezier(0.19, 1, 0.22, 1) 0.4s;
+  transition: height 2.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.7s;
 }
 
 .overlap-footer.visible .footer-brand-text .text-fill::after {
@@ -151,7 +151,7 @@
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.1);
   color: #7f7f7f;
-  transition: all 0.2s;
+  transition: all 0.4s ease;
 }
 
 .social-link:hover {
@@ -193,7 +193,7 @@
 .footer-menu a {
   color: #7f7f7f;
   text-decoration: none;
-  transition: color 0.2s;
+  transition: color 0.3s ease;
   font-size: 0.95rem;
 }
 
@@ -243,10 +243,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 2rem;
+  padding: 1.5rem 0;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
+  margin-top: 170px;
+
 }
 
 .footer-copyright {
@@ -263,7 +264,7 @@
   color: #7f7f7f;
   font-size: 0.85rem;
   text-decoration: none;
-  transition: color 0.2s;
+  transition: color 0.3s ease;
 }
 
 .footer-legal a:hover {

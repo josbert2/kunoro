@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 /**
  * ProductsMenu
@@ -13,12 +14,12 @@ import { Menu, X } from "lucide-react";
  * - Tailwind for layout + a small scoped <style> for the image styling
  */
 
-const PRODUCT_LABELS = [
-  "Air Force 1",
-  "Air Jordan 1",
-  "Huarache",
-  "Dunk",
-  "Air Max",
+const NAVIGATION_ITEMS = [
+  { label: "Home", path: "/" },
+  { label: "About", path: "/about" },
+  { label: "Services", path: "/" },
+  { label: "Portfolio", path: "/" },
+  { label: "Contact", path: "/contacto" },
 ];
 
 // Three image sets (left, right, top) — each contains one image per product label (same order)
@@ -267,36 +268,34 @@ export default function ProductsMenu() {
                 </div>
 
                 <div className="relative" ref={stageRef} onPointerMove={onPointerMove}>
-                  {/* Lista de productos mejorada */}
+                  {/* Lista de navegación mejorada */}
                   <div className="relative z-20 mx-auto flex w-full max-w-md flex-col items-stretch gap-4">
-                    {PRODUCT_LABELS.map((label, i) => (
-                      <div key={label} className="group relative">
-                        <button
-                          type="button"
+                    {NAVIGATION_ITEMS.map((item, i) => (
+                      <div key={item.label} className="group relative">
+                        <Link
+                          to={item.path}
                           onMouseEnter={() => setActiveIndex(i)}
                           onFocus={() => setActiveIndex(i)}
-                          onClick={() => setActiveIndex((prev) => (prev === i ? null : i))}
+                          onClick={closeMenu}
                           onMouseLeave={() => setActiveIndex(null)}
                           onBlur={(e) => {
                             if (!e.currentTarget.contains(e.relatedTarget)) setActiveIndex(null);
                           }}
-                          className="group relative w-full overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm px-8 py-6 text-left transition-all duration-75 ease-in hover:border-white/30 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/50"
+                          className="group relative w-full overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm px-8 py-6 text-left transition-all duration-75 ease-in hover:border-white/30 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/50 block"
                         >
-                          {/* Efecto de brillo desactivado para máxima estabilidad */}
-                          
-                          {/* Número del producto */}
+                          {/* Número del item */}
                           <div className="absolute top-2 right-4 text-xs font-mono text-white/30 group-hover:text-white/50 transition-colors">
                             {String(i + 1).padStart(2, '0')}
                           </div>
                           
-                          {/* Nombre del producto */}
+                          {/* Nombre del item */}
                           <div className="relative">
                             <span className={`block text-3xl font-black uppercase tracking-wider transition-all duration-50 ease-in ${
                               activeIndex === i 
                                 ? "text-white" 
                                 : "text-white/70 group-hover:text-white/90"
                             }`}>
-                              {label}
+                              {item.label}
                             </span>
                             
                             {/* Línea decorativa */}
@@ -309,7 +308,7 @@ export default function ProductsMenu() {
                           {activeIndex === i && (
                             <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-400 to-purple-400 rounded-r-full"></div>
                           )}
-                        </button>
+                        </Link>
                       </div>
                     ))}
                   </div>

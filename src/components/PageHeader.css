@@ -1,0 +1,159 @@
+/* Page Header Styles */
+.page-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(19, 21, 20, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.page-header-container {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+
+}
+
+/* Logo */
+.page-header-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+
+.page-header-logo:hover {
+  transform: scale(1.05);
+}
+
+/* Navigation */
+.page-header-nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.page-header-nav-link {
+  color: #b0b0b0;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.page-header-nav-link:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.page-header-nav-link.active {
+  color: #85c500;
+  background: rgba(133, 197, 0, 0.1);
+}
+
+.page-header-nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  background: #85c500;
+  border-radius: 50%;
+}
+
+/* CTA Button */
+.page-header-cta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #85c500;
+  color: #000;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(133, 197, 0, 0.3);
+}
+
+.page-header-cta:hover {
+  background: #9dd600;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(133, 197, 0, 0.4);
+}
+
+.page-header-cta svg {
+  transition: transform 0.3s ease;
+}
+
+.page-header-cta:hover svg {
+  transform: translateX(2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .page-header-container {
+    padding: 0.75rem 1rem;
+  }
+  
+  .page-header-nav {
+    gap: 1rem;
+  }
+  
+  .page-header-nav-link {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+  }
+  
+  .page-header-cta {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
+  }
+  
+  .page-header-logo div {
+    width: 120px !important;
+    height: 28px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-header-nav {
+    display: none;
+  }
+  
+  .page-header-container {
+    justify-content: space-between;
+  }
+}
+
+/* Scroll effect */
+.page-header.scrolled {
+  background: rgba(19, 21, 20, 0.98);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Animation on mount */
+.page-header {
+  animation: slideDown 0.6s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
