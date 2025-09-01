@@ -1,5 +1,8 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 
+
+import gourm from '../assets/gourm.jpeg';
+
 // ====== TUNING ======
 const GAP_X = '3.5rem';  // ≈ gap-x-14
 const GAP_Y = '9rem';    // ≈ gap-y-36 (separación vertical grande)
@@ -14,12 +17,12 @@ const PortfolioGrid = () => {
   const ioRef = useRef(null);
 
   const portfolioItems = useMemo(() => ([
-    { id: 1,  title: "Harash Denmark",   year: 2010, category: "Branding",  image: "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=1600&h=1200&fit=crop" },
-    { id: 2,  title: "Saudi Lime Green", year: 2010, category: "Marketing", image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1600&h=1200&fit=crop" },
-    { id: 3,  title: "Mobile App",       year: 2011, category: "Development", image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1600&h=1200&fit=crop" },
-    { id: 4,  title: "E-commerce",       year: 2012, category: "Digital",     image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1600&h=1200&fit=crop" },
-    { id: 5,  title: "Logo Design",      year: 2013, category: "Branding",    image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1600&h=1200&fit=crop" },
-    { id: 6,  title: "Marketing Suite",  year: 2014, category: "Strategy",    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1600&h=1200&fit=crop" },
+    { id: 1,  title: "Gourm App",   year: 2025, category: "Branding",  image: gourm },
+    { id: 2,  title: "Saudi Lime Green", year: 2025, category: "Marketing", image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1600&h=1200&fit=crop" },
+    { id: 3,  title: "Mobile App",       year: 2025, category: "Development", image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1600&h=1200&fit=crop" },
+    { id: 4,  title: "E-commerce",       year: 2025, category: "Digital",     image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1600&h=1200&fit=crop" },
+    { id: 5,  title: "Logo Design",      year: 2025, category: "Branding",    image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1600&h=1200&fit=crop" },
+    { id: 6,  title: "Marketing Suite",  year: 2025, category: "Strategy",    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1600&h=1200&fit=crop" },
   ]), []);
 
   // Guardar refs
@@ -92,8 +95,8 @@ const PortfolioGrid = () => {
       <div className="mx-auto max-w-[1400px] px-6 md:px-10">
         {/* Header */}
         <div className="text-left md:text-center mb-14 md:mb-20">
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight syne-font">Our Portfolio</h2>
-          <p className="mt-3 text-neutral-400 max-w-2xl md:mx-auto">A selection of branding and digital work.</p>
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight syne-font">Nuestro Portfolio</h2>
+          <p className="mt-3 text-neutral-400 max-w-2xl md:mx-auto">Un seleccion de branding y trabajo digital.</p>
         </div>
 
         {/* Grid separada como la referencia */}

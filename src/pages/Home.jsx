@@ -10,6 +10,8 @@ import Footer from "../components/Footer";
 import ServicesSection from '../components/ServicesSection';
 import ParallaxSection from '../components/ParallaxSection';
 import PortfolioGrid from '../components/PortfolioGrid';
+import TestimonialsSection from '../components/testimonials-section';
+
 
 // PAGES
 import TextVideo from '../components/pages/textVideo';
@@ -73,6 +75,7 @@ export default function Home() {
         <MenuLateral />
         <AboutUs />
         <PortfolioGrid />
+        <TestimonialsSection />
         <ServicesSection />
       </div>
       
