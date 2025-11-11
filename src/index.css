@@ -1,4 +1,15 @@
 @import "tailwindcss";
+
+/* Fuente After para el logo KUNORO */
+@font-face {
+  font-family: 'After';
+  src: url('/fonts/After-Regular.woff2') format('woff2'),
+       url('/fonts/After-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -103,7 +114,7 @@ h1 {
 }
 
 body {
-  background-color: #e0e0e0;
+  background-color: #efebe5;
 
 }
 

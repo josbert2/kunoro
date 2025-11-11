@@ -11,7 +11,7 @@ import ServicesSection from '../components/ServicesSection';
 import ParallaxSection from '../components/ParallaxSection';
 import PortfolioGrid from '../components/PortfolioGrid';
 import TestimonialsSection from '../components/testimonials-section';
-
+import DarkGradientBackground from '../components/DarkGradientBackground';
 
 // PAGES
 import TextVideo from '../components/pages/textVideo';
@@ -73,6 +73,13 @@ export default function Home() {
         <TextVideo />
         <Main />
         <MenuLateral />
+        <div className="relative h-[600px]">
+           <DarkGradientBackground 
+              variant="purpleBlue" 
+              intensity="medium" 
+              animation="shift"
+          />
+        </div>
         <AboutUs />
         <PortfolioGrid />
         <TestimonialsSection />

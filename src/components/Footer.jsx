@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './Footer.css';
+import DarkGradientBackground from './DarkGradientBackground';
 
 const Footer = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -53,6 +54,9 @@ const Footer = () => {
 
   return (
     <div className={`overlap-footer ${isVisible ? 'visible' : ''}`}>
+      {/* Gradiente de fondo oscuro animado */}
+   
+      
       {/* Texto gigante KUNORO de fondo con efecto de fill */}
       <div className="footer-brand-bg">
         <h1 className="footer-brand-text syne-font">

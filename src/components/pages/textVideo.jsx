@@ -4,7 +4,7 @@ const videoSrc = "https://framerusercontent.com/assets/f2KpBvL8NEdg3mMuHN7FP9fRv
 export default function TextVideo() {
     return (
         <>
-            <section className="framer-rqqsrm z-10">
+            <section className="framer-rqqsrm z-30">
                 
                 <div className="framer-jcul6d" style={{
                 outline: "none",

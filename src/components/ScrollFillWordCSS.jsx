@@ -10,7 +10,7 @@ export default function ScrollFillWordCSS({
   base = "#777",
   fill = "#fff",
   container = null,
-  fontFamily = "Nunito Sans",
+  fontFamily = "After",
   direction = "ltr",
 }) {
   // Progreso de scroll (0 → 1)
@@ -47,6 +47,7 @@ export default function ScrollFillWordCSS({
         width: '100%',
         height: `${height}px`,
         display: 'flex',
+        letterSpacing: '0.05em',
         alignItems: 'center',
         justifyContent: 'center',
         overflow: 'hidden'
@@ -60,6 +61,7 @@ export default function ScrollFillWordCSS({
           position: 'absolute',
           inset: 0,
           display: 'flex',
+          letterSpacing: '0.05em',
           alignItems: 'center',
           justifyContent: 'center',
           fontFamily,

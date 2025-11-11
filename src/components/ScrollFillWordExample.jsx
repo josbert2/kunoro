@@ -6,6 +6,8 @@ export default function ScrollFillWordExample() {
 
   return (
     <div className="scroll-fill-demo">
+    
+
       {/* Botón trigger con la palabra que se llena */}
       <div className="trigger fixed top-4 left-4 z-50 bg-black/80 backdrop-blur-sm rounded-lg p-4">
         <div className="trigger__details flex items-center gap-4">
@@ -18,6 +20,7 @@ export default function ScrollFillWordExample() {
               fill="#fff"         // claro
               container={contentRef}
               direction="ltr"     // izquierda a derecha
+              fontFamily="'After', Impact, sans-serif"
             />
           </div>
           

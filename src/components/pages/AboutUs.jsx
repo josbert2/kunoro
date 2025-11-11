@@ -5,6 +5,7 @@ export default function AboutUs() {
     return (
         <>
             <section>
+              
                 <div class="bg-[#131514] z-[100] relative" style={{
                         backgroundImage: "url(https://html.ravextheme.com/redox/light/assets/imgs/digital-agency-modern/hero-3-bg-shape.webp)",
                         backgroundRepeat: "no-repeat",
@@ -12,7 +13,7 @@ export default function AboutUs() {
                         backgroundPosition: "center",
                 }}>
                     <div>
-                    
+                   
                     </div>
                     <div className="text-white text-xl font-bold relative text-center pt-20 pb-20 flex items-center justify-center"  >
                     

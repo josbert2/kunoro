@@ -1,7 +1,7 @@
 export default function MenuLateral() {
     return (
         <>
-           <div className="framer-10adajc-container" style={{
+           <div className="framer-10adajc-container !z-20" style={{
               transform: "rotate(-90deg)",
             }}>
               <div class="framer-1dby7vq" 
